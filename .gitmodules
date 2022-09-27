@@ -1,0 +1,3 @@
+[submodule "HPE"]
+	path = HPE
+	url = https://github.com/PrakharMishra1606/Human-Pose-Prediction.git
