@@ -3,8 +3,8 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from open3d_wrapper import Open3DWrapper
-from omkar.pose_prediction.pose_predictor import SeSGCNPosePredictor
-from omkar.pose_prediction.utils.datasets.CHICO import PoseDataset, normal_actions
+from HPE.pose_prediction.pose_predictor import SeSGCNPosePredictor
+from HPE.pose_prediction.utils.datasets.CHICO import PoseDataset, normal_actions
 '''
 Shows animation for of every subject doing every action
 '''
@@ -75,17 +75,17 @@ def main():
         [13,14]
     ]
     
-    sequence =  get_sequence("/home/prakhar/ws/cobot/human-pose-prediction/data/chico/poses")
+    sequence =  get_sequence("/home/prakhar/ws/cobot/human-pose-prediction/HPE/data/datasets/CHICO/poses")
 
     input_sequence = sequence[:, 0:10, :, :].permute(0,3,1,2).float()
     input_sequence_copy = sequence[:, 0:10, :, :].detach().clone()
 
     predictor = SeSGCNPosePredictor()
-    predictor.load_config("/home/prakhar/ws/cobot/human-pose-prediction/omkar/config/model_chico_3d_25frames_student_config.ini")
-    predictor.create_model("/home/prakhar/ws/cobot/human-pose-prediction/omkar/data/checkpoints/chico/chico_3d_25frames_Student")
+    predictor.load_config("/home/prakhar/ws/cobot/human-pose-prediction/HPE/config/model_chico_3d_25frames_student_config.ini")
+    predictor.create_model("/home/prakhar/ws/cobot/human-pose-prediction/HPE/data/checkpoints/chico/chico_3d_25frames_Student")
     predictor.load_masks(
-        maskA_path= "/home/prakhar/ws/cobot/human-pose-prediction/omkar/data/checkpoints/chico/masks/maskA_25fps.npy",
-        maskT_path= "/home/prakhar/ws/cobot/human-pose-prediction/omkar/data/checkpoints/chico/masks/maskT_25fps.npy"
+        maskA_path= "/home/prakhar/ws/cobot/human-pose-prediction/HPE/data/checkpoints/chico/masks/maskA_25fps.npy",
+        maskT_path= "/home/prakhar/ws/cobot/human-pose-prediction/HPE/data/checkpoints/chico/masks/maskT_25fps.npy"
     )
 
     predicted_sequence = predictor.predict(input_sequence)
